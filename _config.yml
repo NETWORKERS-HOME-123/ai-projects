@@ -1,0 +1,5 @@
+title: Networkers Home AI Projects
+description: 100 beginner machine learning projects with runnable Python code, tests and honest case studies. By Networkers Home, Bangalore.
+url: https://projects.networkershome.com
+theme: jekyll-theme-minimal
+exclude: [.venv, "**/__pycache__", "**/.pytest_cache", "**/test_project.py", "**/requirements.txt", Gemfile, Gemfile.lock]

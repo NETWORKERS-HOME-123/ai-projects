@@ -1,0 +1,27 @@
+name: tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "30 3 * * 1"   # Mondays 03:30 UTC — catches dependency drift
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Run every project's tests
+        run: |
+          set -e
+          for d in projects/*/; do
+            echo "== $d"; (cd "$d" && python -m pytest -q --timeout=120 -p no:cacheprovider 2>/dev/null || python -m pytest -q -p no:cacheprovider)
+          done
